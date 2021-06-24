@@ -37,6 +37,14 @@ io.on('connection', socket => {
         formatMessage(botName, `${user.username} has joined the chat`)
       );
 
+      socket.broadcast
+      .to(user.room)
+      .emit(
+        'message',
+        formatMessage(botName,
+          `${getRoomUsers(user.room).length} users online: ${getRoomUsers(user.room).map((user) => {
+            return user.username })} `));
+
     // Send users and room info
     io.to(user.room).emit('roomUsers', {
       room: user.room,
